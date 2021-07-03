@@ -38,7 +38,7 @@ public class Applet : Budgie.Applet {
         // Load CSS styling
         Gdk.Screen screen = this.get_display().get_default_screen();
         CssProvider provider = new CssProvider();
-        string style_file = "/com/github/EbonJaeger/budgie-trash-applet/style/style.css";
+        string style_file = "/com/github/ubuntubudgie/budgie-trash-applet/style/style.css";
         Timeout.add(1000, () => {
             provider.load_from_resource(style_file);
             StyleContext.add_provider_for_screen(screen, provider, STYLE_PROVIDER_PRIORITY_APPLICATION);

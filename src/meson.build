@@ -11,7 +11,7 @@ custom_target(
 
 data_dir = join_paths(SRC_DIR, 'data')
 
-gresource_file = join_paths(data_dir, 'com.github.EbonJaeger.budgie-trash-applet.gresource.xml')
+gresource_file = join_paths(data_dir, 'org.github.ubuntubudgie.budgie-trash-applet.gresource.xml')
 res = gnome.compile_resources('bta-resources', gresource_file, source_dir: data_dir)
 
 applet_trash_deps = [
