@@ -1,6 +1,6 @@
-project('budgie-trash-applet',
+project('budgie-trash',
         ['vala', 'c'],
-        version: '1.2.0'
+        version: '1.2.1'
 )
 
 am_cflags = [

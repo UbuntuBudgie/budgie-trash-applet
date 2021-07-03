@@ -2,8 +2,8 @@ gnome = import('gnome')
 
 custom_target(
     'plugin-file-trash',
-    input: 'TrashApplet.plugin.in',
-    output: 'TrashApplet.plugin',
+    input: 'Trash.plugin.in',
+    output: 'Trash.plugin',
     command : [intltool, '--desktop-style', podir, '@INPUT@', '@OUTPUT@'],
     install: true,
     install_dir: APPLET_INSTALL_DIR

@@ -1,0 +1,8 @@
+[Plugin]
+Module=libtrashapplet.so
+Name=Trash
+_Description=Trash
+Authors=EbonJaeger, Ubuntu Budgie Developers
+Copyright=Copyright © 2019 Evan Maddock, 2021 Ubuntu Budgie Developers
+Website=https://ubuntubudgie.org
+Icon=user-trash-symbolic
