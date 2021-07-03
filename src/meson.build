@@ -9,8 +9,6 @@ custom_target(
     install_dir: APPLET_INSTALL_DIR
 )
 
-data_dir = join_paths(SRC_DIR, 'data')
-
 gresource_file = join_paths(data_dir, 'org.github.ubuntubudgie.budgie-trash-applet.gresource.xml')
 res = gnome.compile_resources('bta-resources', gresource_file, source_dir: data_dir)
 
