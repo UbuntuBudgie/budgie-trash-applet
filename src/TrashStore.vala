@@ -130,7 +130,7 @@ namespace TrashApplet {
                             delete_directory(file);
                         } catch (Error e) {
                             warning("Unable to delete directory '%s' in trash: %s", file_name, e.message);
-                            applet.show_notification("Error deleting directory", "Unable to permanently delete '%s': %s".printf(file_name, e.message));
+                            applet.show_notification(_("Empty Trash"), _("Unable to permanently delete '%s': %s").printf(file_name, e.message));
                             return -1;
                         }
                     }
@@ -141,14 +141,14 @@ namespace TrashApplet {
                         info_file.delete();
                     } catch (Error e) {
                         warning("Unable to delete directory '%s' in trash: %s", file_name, e.message);
-                        applet.show_notification("Error deleting directory", "Unable to permanently delete '%s': %s".printf(file_name, e.message));
+                        applet.show_notification(_("Empty Trash"), _("Unable to permanently delete '%s': %s").printf(file_name, e.message));
                     }
 
                     return 0;
                 });
             } catch (Error e) {
                 warning("Unable to delete '%s': %s", file_name, e.message);
-                applet.show_notification("Error deleting item", "Unable to permanently delete '%s': %s".printf(file_name, e.message));
+                applet.show_notification(_("Empty Trash"), _("Unable to permanently delete '%s': %s").printf(file_name, e.message));
             }
         }
 
@@ -189,7 +189,7 @@ namespace TrashApplet {
                 info_file.delete();
             } catch (Error e) {
                 warning("Unable to restore '%s' to '%s': %s", file_name, rpath, e.message);
-                applet.show_notification("Error restoring item", "Unable to restore '%s' to %s: %s".printf(file_name, rpath, e.message));
+                applet.show_notification(_("Restore"), _("Unable to restore '%s' to %s: %s").printf(file_name, rpath, e.message));
             }
         }
 

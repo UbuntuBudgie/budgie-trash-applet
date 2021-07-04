@@ -107,7 +107,7 @@ namespace TrashApplet {
                 }
             } catch (Error e) {
                 warning("Error while searching for trash bin in '%s': %s", mount.get_name(), e.message);
-                applet.show_notification("Unable to mount trash bin", "Unable to mount trash for '%s': %s".printf(mount.get_name(), e.message));
+                applet.show_notification(_("Trash"), _("Unable to access trash for '%s': %s").printf(mount.get_name(), e.message));
                 return;
             }
         }

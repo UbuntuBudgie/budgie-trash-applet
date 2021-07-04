@@ -56,7 +56,7 @@ namespace TrashApplet.Widgets {
             title_header = new Box(Orientation.HORIZONTAL, 0);
             title_header.height_request = 32;
             title_header.get_style_context().add_class("trash-applet-header");
-            title_label = new Label("Trash");
+            title_label = new Label(_("Trash"));
             title_header.pack_start(title_label, true, true, 0);
 
             scroller = new ScrolledWindow(null, null);
@@ -76,7 +76,7 @@ namespace TrashApplet.Widgets {
             footer.height_request = 32;
             footer.get_style_context().add_class("trash-applet-footer");
             settings_button = new Button.from_icon_name("emblem-system-symbolic", IconSize.BUTTON);
-            settings_button.tooltip_text = "Go to applet options";
+            settings_button.tooltip_text = _("Go to applet options");
             settings_button.get_style_context().add_class("flat");
             settings_button.get_style_context().remove_class("button");
             footer.pack_start(settings_button, true, false, 0);

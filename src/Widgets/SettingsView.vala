@@ -58,7 +58,7 @@ namespace TrashApplet.Widgets {
             title_header = new Box(Orientation.HORIZONTAL, 0);
             title_header.height_request = 32;
             title_header.get_style_context().add_class("trash-applet-header");
-            title_label = new Label("Trash Settings");
+            title_label = new Label(_("Trash Settings"));
             title_header.pack_start(title_label, true, true, 0);
 
             // Scroll area
@@ -73,15 +73,15 @@ namespace TrashApplet.Widgets {
 
             // Sorting section
             sorting_section = new Box(Orientation.VERTICAL, 0);
-            sorting_header = new Label("Sort");
+            sorting_header = new Label(_("Sort"));
             sorting_header.halign = Align.START;
             sorting_header.justify = Justification.LEFT;
 
-            sort_type_button = new RadioButton.with_label(null, "Type");
-            sort_alphabetical_button = new RadioButton.with_label_from_widget(sort_type_button, "A-Z");
-            sort_reverse_alphabetical_button = new RadioButton.with_label_from_widget(sort_alphabetical_button, "Z-A");
-            sort_oldest_button = new RadioButton.with_label_from_widget(sort_alphabetical_button, "Oldest First");
-            sort_newest_button = new RadioButton.with_label_from_widget(sort_alphabetical_button, "Newest First");
+            sort_type_button = new RadioButton.with_label(null, _("Type"));
+            sort_alphabetical_button = new RadioButton.with_label_from_widget(sort_type_button, _("A-Z"));
+            sort_reverse_alphabetical_button = new RadioButton.with_label_from_widget(sort_alphabetical_button, _("Z-A"));
+            sort_oldest_button = new RadioButton.with_label_from_widget(sort_alphabetical_button, _("Oldest First"));
+            sort_newest_button = new RadioButton.with_label_from_widget(sort_alphabetical_button, _("Newest First"));
 
             sort_type_button.set_active(true);
             sort_type = SortType.TYPE;
@@ -102,7 +102,7 @@ namespace TrashApplet.Widgets {
             footer.height_request = 32;
             footer.get_style_context().add_class("trash-applet-footer");
             return_button = new Button.from_icon_name("edit-undo-symbolic", IconSize.BUTTON);
-            return_button.tooltip_text = "Return to main view";
+            return_button.tooltip_text = _("Return to main view");
             return_button.get_style_context().add_class("flat");
             return_button.get_style_context().remove_class("button");
             footer.pack_start(return_button, true, false, 0);

@@ -77,9 +77,9 @@ namespace TrashApplet.Widgets {
             display_text.justify = Justification.LEFT;
 
             restore_button = new Button.from_icon_name("edit-undo-symbolic", IconSize.SMALL_TOOLBAR);
-            restore_button.tooltip_text = "Restore item";
+            restore_button.tooltip_text = _("Restore item");
             delete_button = new Button.from_icon_name("user-trash-symbolic", IconSize.SMALL_TOOLBAR);
-            delete_button.tooltip_text = "Delete item";
+            delete_button.tooltip_text = _("Delete item");
 
             file_container.pack_start(file_icon, false, false, 5);
             file_container.pack_start(display_text, true, true, 0);
@@ -92,14 +92,15 @@ namespace TrashApplet.Widgets {
             info_revealer.get_style_context().add_class("trash-info-revealer");
             info_container = new Box(Orientation.VERTICAL, 5);
 
-            path_label = new Label("Path: %s".printf(file_path));
+            path_label = new Label(_("Path: %s").printf(file_path));
             path_label.tooltip_text = file_path;
             path_label.ellipsize = Pango.EllipsizeMode.END;
             path_label.halign = Align.START;
             path_label.justify = Justification.LEFT;
 
             var time = deletion_time.format("%Y-%m-%d %H:%M %Z");
-            date_label = new Label("Deleted on: %s".printf(time));
+            // TRANSLATORS: this is the time of when the file was deleted
+            date_label = new Label(_("Deleted on: %s").printf(time));
             date_label.halign = Align.START;
             date_label.justify = Justification.LEFT;
 
@@ -115,8 +116,8 @@ namespace TrashApplet.Widgets {
             revealer_text.height_request = 20;
 
             revealer_buttons = new Box(Orientation.HORIZONTAL, 0);
-            go_back_button = new Button.with_label("No");
-            confirm_button = new Button.with_label("Yes");
+            go_back_button = new Button.with_label(_("No"));
+            confirm_button = new Button.with_label(_("Yes"));
             revealer_buttons.pack_start(go_back_button);
             revealer_buttons.pack_end(confirm_button);
 
@@ -182,9 +183,9 @@ namespace TrashApplet.Widgets {
             this.restoring = restore;
 
             if (restore) {
-                revealer_text.set_markup("<b>%s</b>".printf("Really restore this item?"));
+                revealer_text.set_markup("<b>%s</b>".printf(_("Restore this item?")));
             } else {
-                revealer_text.set_markup("<b>%s</b>".printf("Really delete this item?"));
+                revealer_text.set_markup("<b>%s</b>".printf(_("Delete this item?")));
             }
 
             restore_button.sensitive = false;

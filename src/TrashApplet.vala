@@ -101,7 +101,8 @@ public class Applet : Budgie.Applet {
 
     public void show_notification(string summary, string body) {
         // I hate this and want to do this more programmaticly with libnotify.
-        var cmd = "notify-send -a 'Budgie Trash Applet' -i user-trash-symbolic '%s' '%s'".printf(summary, body);
+        var title = _("Trash");
+        var cmd = "notify-send -a " + title + " -i user-trash-symbolic '%s' '%s'".printf(summary, body);
         Process.spawn_command_line_async(cmd);
 
         /*
@@ -145,7 +146,7 @@ public class Applet : Budgie.Applet {
                 file.trash();
             } catch (Error e) {
                 warning("Unable to trash dragged file '%s': %s".printf(path, e.message));
-                show_notification("Error moving to trash", e.message);
+                show_notification(_("Error moving to trash:"), e.message);
             }
         }
 

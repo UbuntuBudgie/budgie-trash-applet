@@ -63,9 +63,9 @@ namespace TrashApplet.Widgets {
             store_header.pack_start(store_label, true, true, 0);
 
             restore_button = new Button.from_icon_name("edit-undo-symbolic", IconSize.SMALL_TOOLBAR);
-            restore_button.tooltip_text = "Restore all items";
+            restore_button.tooltip_text = _("Restore all items");
             delete_button = new Button.from_icon_name("list-remove-all-symbolic", IconSize.SMALL_TOOLBAR);
-            delete_button.tooltip_text = "Delete all items";
+            delete_button.tooltip_text = _("Delete all items");
             set_buttons_sensitive(false);
             store_header.pack_end(delete_button, false, false, 0);
             store_header.pack_end(restore_button, false, false, 0);
@@ -78,8 +78,8 @@ namespace TrashApplet.Widgets {
             revealer_text.height_request = 20;
 
             revealer_buttons = new Box(Orientation.HORIZONTAL, 0);
-            go_back_button = new Button.with_label("No");
-            confirm_button = new Button.with_label("Yes");
+            go_back_button = new Button.with_label(_("No"));
+            confirm_button = new Button.with_label(_("Yes"));
             revealer_buttons.pack_start(go_back_button);
             revealer_buttons.pack_end(confirm_button);
 
