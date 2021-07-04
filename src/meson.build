@@ -1,5 +1,11 @@
 gnome = import('gnome')
 
+configurationData = configuration_data()
+configurationData.set('PACKAGE_NAME', 'budgie-extras')
+configurationData.set('LOCALE_DIR', LOCALE_DIR)
+configure_file(input: 'config.h.in', output: 'config.h', configuration: configurationData)
+
+
 custom_target(
     'plugin-file-trash',
     input: 'Trash.plugin.in',
@@ -33,7 +39,9 @@ applet_trash_sources =[
 bta_vala_args = [
     '--gresources=' + gresource_file,
     '--pkg', 'gtk+-3.0',
-    '--pkg', 'glib-2.0'
+    '--pkg', 'glib-2.0',
+    '--pkg=config',
+    '--vapidir=' + VAPI_DIR,
 ]
 
 shared_library(

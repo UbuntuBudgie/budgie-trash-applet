@@ -78,6 +78,16 @@ public class Applet : Budgie.Applet {
         this.show_all();
         drag_dest_set(event_box, DestDefaults.ALL, targets, Gdk.DragAction.COPY);
         connect_signals();
+
+        // Initialize gettext
+        GLib.Intl.setlocale(GLib.LocaleCategory.ALL, "");
+        GLib.Intl.bindtextdomain(
+            Config.GETTEXT_PACKAGE, Config.PACKAGE_LOCALEDIR
+        );
+        GLib.Intl.bind_textdomain_codeset(
+            Config.GETTEXT_PACKAGE, "UTF-8"
+        );
+        GLib.Intl.textdomain(Config.GETTEXT_PACKAGE);
     }
 
     public override bool supports_settings() {
