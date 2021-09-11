@@ -60,7 +60,7 @@ namespace TrashApplet {
             var default_trash_dir = File.new_for_path(Environment.get_user_data_dir() + "/Trash/files");
             var default_info_dir = File.new_for_path(Environment.get_user_data_dir() + "/Trash/info");
             var icon = Icon.new_for_string("drive-harddisk-symbolic");
-            var default_trash_store = new TrashStore(applet, default_trash_dir, default_info_dir, "This PC", null, icon);
+            var default_trash_store = new TrashStore(applet, default_trash_dir, default_info_dir, _("Desktop"), null, icon);
             this.trash_stores.insert("default", default_trash_store);
 
             // Get the current user's UID to get their trash directory on removable drives
