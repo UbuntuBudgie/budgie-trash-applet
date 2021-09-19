@@ -226,9 +226,9 @@ namespace TrashApplet.Widgets {
             this.restoring = restore;
 
             if (restore) {
-                revealer_text.set_markup("<b>%s</b>".printf("Really restore all items?"));
+                revealer_text.set_markup("<b>%s</b>".printf(_("Really restore all items?")));
             } else {
-                revealer_text.set_markup("<b>%s</b>".printf("Really delete all items?"));
+                revealer_text.set_markup("<b>%s</b>".printf(_("Really delete all items?")));
             }
 
             restore_button.sensitive = false;
