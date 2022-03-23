@@ -40,14 +40,14 @@ namespace TrashApplet {
 
         /**
          * Called when a device with a trash bin has been mounted.
-         * 
+         *
          * @param trash_store The TrashStore for the added mount
          */
         public signal void trash_store_added(TrashStore trash_store);
 
         /**
          * Called when a device has been unmounted.
-         * 
+         *
          * @param trash_store The TrashStore that was just unmounted
          */
         public signal void trash_store_removed(TrashStore trash_store);
@@ -77,12 +77,12 @@ namespace TrashApplet {
 
         /**
          * Process a connect mount to see if it has a trash bin.
-         * 
+         *
          * Trash bins on external drives reside in a folder following
          * the format ".Trash-$UID", where $UID is the current user's
          * UID. If this directory is found, we'll create a TrashStore
          * for it, and emit the `trash_store_added` signal.
-         * 
+         *
          * @param mount The Mount that was added
          */
         private void process_mount_added(Mount mount) {
@@ -102,6 +102,7 @@ namespace TrashApplet {
                         var trash_store = new TrashStore(applet, trash_dir, info_dir, mount.get_name(), mount.get_default_location().get_path(), mount.get_symbolic_icon());
                         this.trash_stores.insert(mount.get_name(), trash_store);
                         trash_store_added(trash_store);
+                        applet.update_trash_icon();
                         return;
                     }
                 }
@@ -117,6 +118,7 @@ namespace TrashApplet {
                 var trash_store = trash_stores.get(mount.get_name());
                 trash_store_removed(trash_store);
                 trash_stores.remove(mount.get_name());
+                applet.update_trash_icon();
             }
         }
 
@@ -132,11 +134,11 @@ namespace TrashApplet {
 
         /**
          * Get the current user's UID by calling out to a command line utility.
-         * 
+         *
          * This is hacky and I hate it. I would much rather use accountsservice's UserManager,
          * but that has its own set of problems; mainly waiting for it to load users
          * so it can actually be used.
-         * 
+         *
          * @returns The UID of the current user, or -1
          */
         private int get_user_id() {
@@ -164,6 +166,15 @@ namespace TrashApplet {
             foreach (var mount in mounts) { // Iterate through all mounted mounts
                 process_mount_added(mount);
             }
+        }
+
+        public int trash_items_count () {
+            // Returns the number of items in all mounts' trash folders
+            int count = 0;
+            trash_stores.get_values().foreach((entry) => {
+                count += entry.trash_count;
+                });
+            return (count);
         }
     } // End class
 } // End namespace

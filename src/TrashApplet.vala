@@ -23,7 +23,7 @@ using TrashApplet.Widgets;
 namespace TrashApplet {
 
 public class Plugin : Object, Budgie.Plugin {
-    
+
     public Budgie.Applet get_panel_widget(string uuid) {
         return new Applet(uuid);
     }
@@ -34,6 +34,8 @@ public class Applet : Budgie.Applet {
     private const TargetEntry[] targets = {
         { "text/uri-list", 0, 0 }
     };
+
+    const int MAX_TRASH_ITEMS = 100;
 
     private EventBox? event_box = null;
     private IconButton? icon_button = null;
@@ -103,7 +105,11 @@ public class Applet : Budgie.Applet {
         // I hate this and want to do this more programmaticly with libnotify.
         var title = _("Trash");
         var cmd = "notify-send -a " + title + " -i user-trash-symbolic '%s' '%s'".printf(summary, body);
-        Process.spawn_command_line_async(cmd);
+        try {
+            Process.spawn_command_line_async(cmd);
+        } catch (SpawnError e) {
+            warning("Unable to send notification: %s", e.message);
+        }
 
         /*
         var notification = new Notify.Notification(summary, body, "user-trash-symbolic");
@@ -123,7 +129,16 @@ public class Applet : Budgie.Applet {
             if (popover.is_visible()) { // Hide popover if currently being shown
                 popover.hide();
             } else {
-                manager.show_popover(icon_button);
+                if (trash_handler.trash_items_count() < MAX_TRASH_ITEMS) {
+                    manager.show_popover(icon_button);
+                } else {
+                    string? xdgopen = Environment.find_program_in_path("xdg-open");
+                    try {
+                        Process.spawn_command_line_async(string.join(" ", xdgopen, "trash://"));
+                    } catch (SpawnError e) {
+                        warning("Unable to spawn trash: %s", e.message);
+                    }
+                }
             }
         });
 
@@ -135,22 +150,28 @@ public class Applet : Budgie.Applet {
             return;
         }
 
-        var data = (string) selection_data.get_data();
-        if (data.has_prefix("file://")) {
-            var path = data.replace("file://", "");
-            path = path.replace("%20", " "); // Try to make a useable path
-            path = path.strip();
-            var file = File.new_for_path(path);
+        var data = selection_data.get_uris();
+        foreach (string dropped_item in data) {
+            if (dropped_item.has_prefix("file://")) {
+                var path = dropped_item.replace("file://", "");
+                path = Uri.unescape_string(path); // Try to make a useable path
+                path = path.strip();
+                var file = File.new_for_path(path);
 
-            try {
-                file.trash();
-            } catch (Error e) {
-                warning("Unable to trash dragged file '%s': %s".printf(path, e.message));
-                show_notification(_("Error moving to trash:"), e.message);
+                try {
+                    file.trash();
+                } catch (Error e) {
+                    warning("Unable to trash dragged file '%s': %s".printf(path, e.message));
+                    show_notification(_("Error moving to trash:"), e.message);
+                }
             }
         }
-
         drag_finish(context, true, true, time);
+    }
+
+    public void update_trash_icon() {
+        // Use full icon if any folders contain items
+        icon_button.set_icon_full(trash_handler.trash_items_count() > 0);
     }
 }
 

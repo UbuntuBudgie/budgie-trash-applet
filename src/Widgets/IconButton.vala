@@ -27,6 +27,10 @@ namespace TrashApplet.Widgets {
 
         private TrashHandler trash_handler;
 
+        public void set_icon_full(bool full) {
+            set_image(full ? icon_full : icon_empty);
+        }
+
         public IconButton(TrashHandler trash_handler) {
             this.icon_empty = new Image.from_icon_name("user-trash-symbolic", IconSize.MENU);
             this.icon_full = new Image.from_icon_name("user-trash-full-symbolic", IconSize.MENU);

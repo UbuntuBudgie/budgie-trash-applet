@@ -18,11 +18,11 @@
 
 using GLib;
 
-namespace TrashApplet { 
-    
+namespace TrashApplet {
+
     /**
      * TrashStore represents a trash bin on the user's system.
-     * 
+     *
      * Removable drives may have their own trash locations that should be tracked,
      * along with the user's main trash bin.
      */
@@ -37,7 +37,7 @@ namespace TrashApplet {
 
         private FileMonitor trash_monitor;
 
-        private int trash_count = 0;
+        public int trash_count { get; private set; default = 0; }
 
         /* Signals */
         public signal void trash_added(string file_name, string file_path, Icon file_icon, DateTime deletion_time, bool is_directory);
@@ -63,7 +63,7 @@ namespace TrashApplet {
 
         /**
          * Gets all of the current items in this store's trash bin.
-         * 
+         *
          * A `trash_added` signal is emitted for each found trash item so
          * the UI can add each one accordingly.
          */
@@ -91,11 +91,12 @@ namespace TrashApplet {
                     var deletion_time = get_deletion_date(info.get_name());
 
                     trash_count++;
-                    trash_added(info.get_name(), path.replace("%20", " "), info.get_icon(), deletion_time, is_directory);
+                    trash_added(info.get_name(), Uri.unescape_string(path), info.get_icon(), deletion_time, is_directory);
                 }
             } catch (Error e) {
                 warning("Unable to create trash item: %s", e.message);
             }
+            applet.update_trash_icon();
         }
 
         public string get_drive_name() {
@@ -108,11 +109,11 @@ namespace TrashApplet {
 
         /**
          * Delete a file permanently from the trash.
-         * 
+         *
          * If the file is a directory, it will be recursively deleted.
          * This function spawns a new thread to do the deleting to
          * avoid locking the system up when removing large files.
-         * 
+         *
          * @param file_name The name of the file to delete
          */
         public void delete_file(string file_name) {
@@ -175,7 +176,7 @@ namespace TrashApplet {
         public void restore_file(string file_name, string restore_path) {
             var file = File.new_for_path(trash_dir.get_path() + "/" + file_name);
             var info_file = File.new_for_path(info_dir.get_path() + "/" + file_name + ".trashinfo");
-            var rpath = restore_path.replace("%20", " "); // Handling spaces in 2019.
+            var rpath = Uri.unescape_string(restore_path); // Handling special characters.
 
             File destination;
             if (drive_path != null) {
@@ -198,7 +199,7 @@ namespace TrashApplet {
                 case FileMonitorEvent.MOVED_IN: // A file was just added to the trash
                     var file_name = file.get_basename();
                     var file_path = get_path_from_trashinfo(file_name);
-                    var attributes = FileAttribute.STANDARD_ICON + "," + 
+                    var attributes = FileAttribute.STANDARD_ICON + "," +
                                      FileAttribute.STANDARD_TYPE;
 
                     Icon file_icon = null;
@@ -233,6 +234,7 @@ namespace TrashApplet {
                 default: // We don't care about anything else
                     break;
             }
+            applet.update_trash_icon();
         }
 
         private string? get_path_from_trashinfo(string file_name) {
